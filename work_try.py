@@ -9,6 +9,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from keras.layers.embeddings import Embedding
 from keras.preprocessing import sequence
+from keras.layers import Dropout
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -41,7 +42,7 @@ for i in range(len(X)):
     # print(a)
 
 
-X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.1, random_state=42)
 
 
 # for i in range(len(y))
@@ -61,8 +62,10 @@ X_test = sequence.pad_sequences(X_test, maxlen=max_review_length)
 # begin
 embedding_vector_length = 32
 model = Sequential()
+# model.add(Embedding(10000, embedding_vector_length, input_length=max_review_length))
 model.add(Embedding(10000, embedding_vector_length, input_length=max_review_length))
 model.add(LSTM(100))
+model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 print(model.summary())
