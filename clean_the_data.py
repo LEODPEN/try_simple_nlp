@@ -2,6 +2,7 @@ import pandas as pd
 import string
 import csv
 import nltk
+import re
 import numpy as np
 from gensim import corpora
 from collections import defaultdict
@@ -15,11 +16,9 @@ print(f_data.describe())
 record_num = int(f_data.describe().iloc[0, 0])
 
 # 查看第一行所有数据
-print(f_data.iloc[0, :])
+# print(f_data.iloc[0, :])
 documents = []
-# list.append(f_data.iloc[0, :]['review'])
-# list.append(f_data.iloc[1, :]['review'])
-# print(list)
+
 
 for i in range(record_num):
     record = f_data.iloc[i, :]
@@ -27,13 +26,45 @@ for i in range(record_num):
     # message = record['review'].split()
 
 
+# print(documents)
+
 # remove common words and tokenize
-stoplist = set('for a of the and to in'.split())
+stoplist = set('for a of the and to in is an to , \' : ? . # $ & ( ) ‘ “ + ...'.split())
 texts = [[word for word in document.lower().split() if word not in stoplist]
          for document in documents]
 
-# remove words that appear only once
+# for p in range(len(texts)):
+#     for f in range(len(texts[p])):
+#         if texts[p][f].isdigit():
+#             texts[p][f] = '+'
 
+# 除去数字
+texts = [[token for token in text if token.isdigit() is False] for text in texts]
+
+# 如果只保留字符串？
+texts = [[token for token in text if (re.match('^[a-z]+$', token) or
+                                      '😒' in token or
+                                      '😂' in token or
+                                      '😊' in token or
+                                      '😜' in token or
+                                      '🤑' in token or
+                                      '😁' in token or
+                                      '😚' in token or
+                                      '😝' in token or
+                                      '😘' in token or
+                                      '😲' in token or
+                                      '💃' in token or
+                                      '👊' in token
+                                      )] for text in texts]
+
+# print(texts)
+# for p in range(len(texts)):
+#     for f in range(len(texts[p])):
+#         if texts[p][f].isdigit():
+#             print('?')
+
+
+# 是否删除只出现一次的呢
 frequency = defaultdict(int)
 for text in texts:
     for token in text:
@@ -42,7 +73,6 @@ for text in texts:
 texts = [[token for token in text if frequency[token] > 1] for text in texts]
 
 # pprint(texts)
-
 
 dictionary = corpora.Dictionary(texts)
 dictionary.save('pf.dict')  # store the dictionary, for future reference
@@ -57,7 +87,7 @@ dictionary.save_as_text("pf.txt")
 # tryit = corpora.Dictionary('dictionary')
 # print(tryit)
 
-
+# 测试一下
 new_doc = "Affia ki"
 new_vec = dictionary.doc2bow(new_doc.lower().split())
 new_vec2 = dictionary.doc2idx(new_doc.lower().split())
