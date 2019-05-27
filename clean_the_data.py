@@ -41,22 +41,24 @@ texts = [[word for word in document.lower().split() if word not in stoplist]
 # 除去数字
 texts = [[token for token in text if token.isdigit() is False] for text in texts]
 
-# 如果只保留字符串？
-texts = [[token for token in text if (re.match('^[a-z]+$', token) or
-                                      '😒' in token or
-                                      '😂' in token or
-                                      '😊' in token or
-                                      '😜' in token or
-                                      '🤑' in token or
-                                      '😁' in token or
-                                      '😚' in token or
-                                      '😝' in token or
-                                      '😘' in token or
-                                      '😲' in token or
-                                      '💃' in token or
-                                      '👊' in token
-                                      )] for text in texts]
+# 如果只保留字符串和表情
+# texts = [[token for token in text if (re.match('^[a-z]+$', token) or
+#                                       '😒' in token or
+#                                       '😂' in token or
+#                                       '😊' in token or
+#                                       '😜' in token or
+#                                       '🤑' in token or
+#                                       '😁' in token or
+#                                       '😚' in token or
+#                                       '😝' in token or
+#                                       '😘' in token or
+#                                       '😲' in token or
+#                                       '💃' in token or
+#                                       '👊' in token
+#                                       )] for text in texts]
 
+# 只保留字符串
+texts = [[token for token in text if (re.match('^[a-z]+$', token))] for text in texts]
 # print(texts)
 # for p in range(len(texts)):
 #     for f in range(len(texts[p])):

@@ -36,7 +36,8 @@ for i in range(len(X)):
     # print(a)
 
 
-X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.3, random_state=42)
+# X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.1, random_state=44)
+X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.1)
 
 max_review_length = 128
 
@@ -45,12 +46,30 @@ X_test = sequence.pad_sequences(X_test, maxlen=max_review_length)
 
 model = load_model('pf_model1.h5')
 
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=1, batch_size=64)
+# model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=1, batch_size=64)
 
 scores = model.evaluate(X_test, y_test, verbose=0)
 print("accuracy: %.2f%%" % (scores[1]*100))
 
-model.save("pf_model1.h5")
+model = load_model('pf_model2.h5')
+
+scores = model.evaluate(X_test, y_test, verbose=0)
+print("accuracy: %.2f%%" % (scores[1]*100))
+
+model = load_model('pf_model3.h5')
+scores = model.evaluate(X_test, y_test, verbose=0)
+print("accuracy: %.2f%%" % (scores[1]*100))
+
+model = load_model('pf_model4.h5')
+scores = model.evaluate(X_test, y_test, verbose=0)
+print("accuracy: %.2f%%" % (scores[1]*100))
+
+model = load_model('pf_model5.h5')
+scores = model.evaluate(X_test, y_test, verbose=0)
+print("accuracy: %.2f%%" % (scores[1]*100))
+
+
+# model.save("pf_model5.h5")
 
 
 

@@ -42,7 +42,7 @@ for i in range(len(X)):
     # print(a)
 
 
-X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.3, random_state=44)
+X_train, X_test, y_train, y_test = train_test_split(list_x, list_y, test_size=0.1, random_state=44)
 
 
 # for i in range(len(y))
@@ -69,7 +69,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 print(model.summary())
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=3, batch_size=64)
+model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=2, batch_size=64)
 
 scores = model.evaluate(X_test, y_test, verbose=0)
 print("accuracy: %.2f%%" % (scores[1]*100))
